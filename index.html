@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LibraHub - Library Management System</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+
+  <section id="loginPage" class="login-page">
+    <div class="login-card">
+      <div class="brand">📚 <span>LibraHub</span></div>
+      <p class="muted">Library Management System</p>
+
+      <div class="role-switch">
+        <button class="role-btn active" data-role="student">Student Login</button>
+        <button class="role-btn" data-role="library">Library Login</button>
+      </div>
+
+      <form id="loginForm">
+        <label>Username / Student ID</label>
+        <input id="username" required placeholder="Enter username">
+
+        <label>Password</label>
+        <input id="password" type="password" required placeholder="Enter password">
+
+        <button class="primary full" type="submit">Login</button>
+      </form>
+
+      <p class="demo">Demo: student / 1234 &nbsp; | &nbsp; librarian / 1234</p>
+      <div id="loginMessage"></div>
+    </div>
+  </section>
+
+  <section id="dashboardPage" class="hidden">
+    <header class="topbar">
+      <div class="brand">📚 <span>LibraHub</span></div>
+      <div>
+        <span id="welcomeUser"></span>
+        <button id="logoutBtn" class="logout">Logout</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <button class="nav-btn active" data-section="overview">🏠 Dashboard</button>
+        <button class="nav-btn" data-section="books">📚 Books</button>
+        <button class="nav-btn student-only" data-section="mybooks">📖 My Books</button>
+        <button class="nav-btn library-only" data-section="manage">⚙️ Manage Books</button>
+        <button class="nav-btn" data-section="payments">💳 Payments</button>
+      </aside>
+
+      <main class="content">
+        <section id="overview" class="page-section">
+          <div class="page-title">
+            <div>
+              <h1>Library Dashboard</h1>
+              <p class="muted">Manage books, issue periods and payments.</p>
+            </div>
+          </div>
+
+          <div class="stats">
+            <div class="stat"><span>📚</span><b id="statBooks">0</b><small>Total Books</small></div>
+            <div class="stat"><span>📖</span><b id="statIssued">0</b><small>Issued Books</small></div>
+            <div class="stat"><span>⏰</span><b id="statDue">0</b><small>Due / Overdue</small></div>
+            <div class="stat"><span>💰</span><b id="statFine">₹0</b><small>Pending Fine</small></div>
+          </div>
+
+          <div class="card">
+            <h2>Library Rules</h2>
+            <ul class="rules">
+              <li>Standard issue period: <b>14 days</b>.</li>
+              <li>Renewal is available when there is no reservation.</li>
+              <li>Late return fine: <b>₹5 per day</b>.</li>
+              <li>Payment records are shown under Payments.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="books" class="page-section hidden">
+          <div class="page-title">
+            <div><h1>Book Catalog</h1><p class="muted">Search and issue available books.</p></div>
+            <input id="bookSearch" class="search" placeholder="Search title, author or category">
+          </div>
+          <div id="bookGrid" class="book-grid"></div>
+        </section>
+
+        <section id="mybooks" class="page-section hidden student-only-section">
+          <div class="page-title"><div><h1>My Books</h1><p class="muted">Track issue and return dates.</p></div></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Book</th><th>Issue Date</th><th>Due Date</th><th>Status</th><th>Fine</th><th>Action</th></tr></thead>
+              <tbody id="myBooksTable"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="manage" class="page-section hidden library-only-section">
+          <div class="page-title"><div><h1>Manage Books</h1><p class="muted">Add or remove books from the catalog.</p></div></div>
+          <div class="card">
+            <form id="bookForm" class="form-grid">
+              <input id="bookTitle" required placeholder="Book title">
+              <input id="bookAuthor" required placeholder="Author">
+              <input id="bookCategory" required placeholder="Category">
+              <input id="bookQty" type="number" min="1" value="1" required placeholder="Quantity">
+              <button class="primary" type="submit">Add Book</button>
+            </form>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>ID</th><th>Title</th><th>Author</th><th>Category</th><th>Available</th><th>Action</th></tr></thead>
+              <tbody id="manageTable"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="payments" class="page-section hidden">
+          <div class="page-title"><div><h1>Payments & Fines</h1><p class="muted">View and pay outstanding library fines.</p></div></div>
+          <div class="card payment-card">
+            <h3>Pending Amount</h3>
+            <div id="pendingAmount" class="amount">₹0</div>
+            <button id="payBtn" class="primary">Pay Pending Fine</button>
+            <p id="paymentMessage" class="muted"></p>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Date</th><th>Description</th><th>Amount</th><th>Status</th></tr></thead>
+              <tbody id="paymentTable"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+  </section>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>
